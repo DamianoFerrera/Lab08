@@ -25,11 +25,7 @@ class PrezzoDAO:
         try:
             cursor.execute(query, (id_distributore,))
             for row in cursor:
-                prezzo = Prezzo(
-                    data=row["data"],
-                    prezzo_litro=float(row["prezzo_litro"]),
-                    id_distributore=row["id_distributore"],
-                )
+                prezzo = Prezzo(**row)
                 result.append(prezzo)
         except Exception as e:
             print(f"Errore durante la query get_prezzi: {e}")
