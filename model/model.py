@@ -97,7 +97,7 @@ class Model:
 
 
 
-    '''if giorno > 7:
+    '''if giorno > 7   :
             if self.__costo_ottimo == -1 or costo_corrente < self.__costo_ottimo:
                 self.__costo_ottimo = costo_corrente
                 self.__sequenza_ottima = list(sequenza_parziale)
