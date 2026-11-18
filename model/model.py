@@ -79,20 +79,55 @@ class Model:
     def __ricorsione(self, sequenza_parziale, giorno, ultimo_distributore, costo_corrente, prezzi_settimana):
         """ Implementa la ricorsione """
         # TODO
-        if ultimo_distributore == None:
-            if (prezzi_settimana[1][0]) < (prezzi_settimana[2][0]):
-                self.__costo_ottimo = prezzi_settimana[1][0] * 100
-                self.__sequenza_ottima.append(1)
-                prezzi_settimana[1].pop(0)
-                prezzi_settimana[2].pop(0)
-                giorno =+ 1
+        if giorno <= 7:
+            if ultimo_distributore == None:
+                if (prezzi_settimana[1][0]) < (prezzi_settimana[2][0]):
+                    self.__costo_ottimo = prezzi_settimana[1][0] * 100
+                    self.__sequenza_ottima.append(1)
+                    ultimo_distributore = self.__sequenza_ottima[len(self.__sequenza_ottima)-1]
+                    prezzi_settimana[1].pop(0)
+                    prezzi_settimana[2].pop(0)
+                    giorno += 1
+                    self.__ricorsione(self, sequenza_parziale, giorno, ultimo_distributore, costo_corrente, prezzi_settimana )
+                else:
+                    self.__costo_ottimo = prezzi_settimana[2][0] * 100
+                    self.__sequenza_ottima.append(2)
+                    ultimo_distributore = self.__sequenza_ottima[len(self.__sequenza_ottima) - 1]
+                    prezzi_settimana[1].pop(0)
+                    prezzi_settimana[2].pop(0)
+                    giorno += 1
+                    self.__ricorsione(self, sequenza_parziale, giorno, ultimo_distributore, costo_corrente,prezzi_settimana)
             else:
-                self.__costo_ottimo = prezzi_settimana[2][0] * 100
-                self.__sequenza_ottima.append(2)
-                prezzi_settimana[1].pop(0)
-                prezzi_settimana[2].pop(0)
-                giorno =+ 1
-        else:
+                prezzo_D1 = (prezzi_settimana[1][0] * 100)
+                prezzo_D2 = (prezzi_settimana[2][0] * 100)
+                if  prezzi_settimana[1][0] < prezzi_settimana[2][0]:
+                    if ultimo_distributore == 1 :
+                        self.__costo_ottimo += prezzo_D1
+                        self.__sequenza_ottima.append(1)
+                        ultimo_distributore = self.__sequenza_ottima[len(self.__sequenza_ottima) - 1]
+                        prezzi_settimana[1].pop(0)
+                        prezzi_settimana[2].pop(0)
+                        giorno += 1
+                        self.__ricorsione(self, sequenza_parziale, giorno, ultimo_distributore, costo_corrente,prezzi_settimana)
+                    elif (prezzo_D1 + 5) < prezzo_D2:
+                        self.__costo_ottimo += (prezzo_D1 + 5)
+                        self.__sequenza_ottima.append(1)
+                        ultimo_distributore = self.__sequenza_ottima[len(self.__sequenza_ottima) - 1]
+                        prezzi_settimana[1].pop(0)
+                        prezzi_settimana[2].pop(0)
+                        giorno += 1
+                        self.__ricorsione(self, sequenza_parziale, giorno, ultimo_distributore, costo_corrente,prezzi_settimana)
+                    else:
+                        self.__costo_ottimo += prezzo_D2
+                        self.__sequenza_ottima.append(2)
+                        ultimo_distributore = self.__sequenza_ottima[len(self.__sequenza_ottima) - 1]
+                        prezzi_settimana[1].pop(0)
+                        prezzi_settimana[2].pop(0)
+                        giorno += 1
+                        self.__ricorsione(self, sequenza_parziale, giorno, ultimo_distributore, costo_corrente,prezzi_settimana)
+                if prezzi_settimana[1][0] > prezzi_settimana[2][0]:
+                    #stessa cosa del caso sopra ma per il secondo distribtore
+
 
 
 
